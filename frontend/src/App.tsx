@@ -5,7 +5,7 @@ export default function App() {
 
   const [peerConnection, setPeerConnection] = useState<RTCPeerConnection | null>(null)
   const [connectedCall, setConnectedCall] = useState<string | null>(null)
-  const [socket, setSocket] = useState<WebSocket | null>(null)
+  const [_socket, setSocket] = useState<WebSocket | null>(null)
 
   const [callIdInput, setCallIdInput] = useState<string>("")
 
