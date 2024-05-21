@@ -22,20 +22,43 @@ export default function App() {
 
   return (
     <div className="">
-      <p className="text-center font-bold text-2xl">{connectedCall ? "Chatroom " + connectedCall : ""}</p>
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex justify-center">
-          <video ref={localVideo} autoPlay muted playsInline className="aspect-video bg-neutral-600 border-2 border-neutral-200 h-64"></video>
-          <video ref={remoteVideo} autoPlay muted playsInline className="aspect-video bg-neutral-600 border-2 border-neutral-200 h-64"></video>
-        </div>
-        <button onClick={startWebcam} className="px-3 py-2 bg-neutral-600 rounded-md">Starte Webcam</button>
+      <div className="border-2 border-neutral-500 rounded p-4 text-center mb-3">
+        <h1 className="font-bold text-4xl">Web RTC Demo</h1>
       </div>
-      <div>
+      <div className="flex flex-col items-center gap-2 mb-2">
+        <button onClick={startWebcam} className="px-3 py-2 bg-green-600 rounded ">1. Starte Webcam</button>
+        <p className="text-center">{connectedCall ? "Chatroom " + connectedCall : ""}</p>
+        <div className="flex justify-center gap-3">
+          <div className="flex flex-col">
+            <p className="text-bold text-center text-xl">Dein Video</p>
+            <video
+              ref={localVideo}
+              autoPlay muted playsInline
+              className="aspect-video bg-neutral-600 border-2 border-blue-500 h-64 rounded-lg"
+            />
+          </div>
+          <div className="flex-col justify-center gap-3">
+            <p className="text-bold text-center text-xl">Anderes Video</p>
+            <video
+              ref={remoteVideo}
+              autoPlay muted playsInline
+              className="aspect-video bg-neutral-600 border-2 border-red-500 h-64 rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <label className="text-left" htmlFor="chatroomId">
+          Raum ID
+        </label>
         <input
           onChange={(e) => setCallIdInput(e.target.value)}
-          className="bg-transparent text-neutral-200 border-2 border-neutral-200 px-3 py-2 text-center" />
-        <button onClick={startCall} disabled={!localVideo.current?.srcObject || !callIdInput} className="px-3 py-2 bg-neutral-600 rounded-md disabled:bg-neutral-700">Call starten</button>
-        <button onClick={answerCall} disabled={!localVideo.current?.srcObject || !callIdInput} className="px-3 py-2 bg-neutral-600 rounded-md disabled:bg-neutral-700">Call beitreten</button>
+          className="bg-transparent text-neutral-200 border-2 border-neutral-200 px-3 py-2 text-center rounded"
+          name="chatroomId" />
+        <div className="flex gap-3 mx-auto">
+          <button onClick={startCall} disabled={!localVideo.current?.srcObject || !callIdInput} className="px-3 py-2 bg-blue-500 rounded-md disabled:bg-neutral-700 border-2 border-blue-500 disabled:border-blue-500">Call starten</button>
+          <button onClick={answerCall} disabled={!localVideo.current?.srcObject || !callIdInput} className="px-3 py-2 bg-red-500 rounded-md disabled:bg-neutral-700 border-2 border-red-500 disabled:border-red-500">Call beitreten</button>
+        </div>
       </div>
     </div>
   )
