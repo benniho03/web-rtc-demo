@@ -70,7 +70,7 @@ export default function App() {
   }
 
   function startCall() {
-    const socket = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
+    const socket = new WebSocket(`wss://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
 
     socket.onopen = async () => {
       socket.onmessage = event => handleMessageOffer(JSON.parse(event.data))
@@ -101,7 +101,7 @@ export default function App() {
   }
 
   async function answerCall() {
-    const socket = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
+    const socket = new WebSocket(`wss://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
 
     socket.onopen = async () => {
       socket.onmessage = event => handleMessageAnswer(JSON.parse(event.data))
