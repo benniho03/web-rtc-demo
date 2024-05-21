@@ -118,7 +118,7 @@ export default function App() {
       }
 
       // Get Offer from Server
-      const response = await fetch(`http://${import.meta.env.VITE_WS_URL}/offer/${callIdInput}`)
+      const response = await fetch(`https://${import.meta.env.VITE_WS_URL}/offer/${callIdInput}`)
       if (!response.ok) throw new Error("Offer not found")
       const offer = await response.json()
 
