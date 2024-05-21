@@ -1,6 +1,4 @@
-import { initializeApp } from "firebase/app";
-import 'firebase/compat/firestore';
-import { Firestore, addDoc, collection, doc, getDoc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+"use client"
 import { useEffect, useRef, useState } from "react";
 
 export default function App() {
@@ -72,7 +70,7 @@ export default function App() {
   }
 
   function startCall() {
-    const socket = new WebSocket('ws://localhost:8080/chat/' + callIdInput)
+    const socket = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
 
     socket.onopen = async () => {
       socket.onmessage = event => handleMessageOffer(JSON.parse(event.data))
@@ -103,7 +101,7 @@ export default function App() {
   }
 
   async function answerCall() {
-    const socket = new WebSocket('ws://localhost:8080/chat/' + callIdInput)
+    const socket = new WebSocket(`ws://${import.meta.env.VITE_WS_URL}/chat/${callIdInput}`)
 
     socket.onopen = async () => {
       socket.onmessage = event => handleMessageAnswer(JSON.parse(event.data))
@@ -120,7 +118,7 @@ export default function App() {
       }
 
       // Get Offer from Server
-      const response = await fetch("http://localhost:8080/offer/" + callIdInput)
+      const response = await fetch(`http://${import.meta.env.VITE_WS_URL}/offer/${callIdInput}`)
       if (!response.ok) throw new Error("Offer not found")
       const offer = await response.json()
 
@@ -165,31 +163,6 @@ export default function App() {
       return
     }
   }
-
-
-
-  async function handleCallStart() {
-    if (!socket) throw new Error("Socket not initialized")
-    if (!peerConnection) throw new Error("Peer connection not initialized")
-
-    const offer = await peerConnection.createOffer()
-
-    peerConnection.setLocalDescription(offer)
-
-    socket.send(JSON.stringify({
-      type: "offer",
-      data: offer
-    }))
-
-    peerConnection.onicecandidate = event => {
-      if (!event.candidate) return
-      socket.send(JSON.stringify({
-        type: "offer-ice-candidate",
-        data: event.candidate
-      }))
-    }
-  }
-
 
 }
 
